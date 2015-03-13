@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EZServiceLocator", "EZServiceLocator\EZServiceLocator.csproj", "{BF21BAE7-1FFA-40DB-B358-CE4B6E159359}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF21BAE7-1FFA-40DB-B358-CE4B6E159359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF21BAE7-1FFA-40DB-B358-CE4B6E159359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF21BAE7-1FFA-40DB-B358-CE4B6E159359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF21BAE7-1FFA-40DB-B358-CE4B6E159359}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
