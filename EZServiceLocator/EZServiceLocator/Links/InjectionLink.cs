@@ -15,7 +15,7 @@ namespace EZServiceLocation
 
         public InjectionLink() 
         {
-            _theadInstances = new Dictionary<int, TObject>();
+            _threadInstances = new Dictionary<int, TObject>();
         }
 
         public void Use(ConstructorDependency dependencies, bool threadScope = true)
@@ -34,11 +34,11 @@ namespace EZServiceLocation
                 {
                     lock (_lock)
                     {
-                        if (!_theadInstances.ContainsKey(Thread.CurrentThread.ManagedThreadId))
-                            _theadInstances.Add(Thread.CurrentThread.ManagedThreadId, _getService(parameters));
+                        if (!_threadInstances.ContainsKey(Thread.CurrentThread.ManagedThreadId))
+                            _threadInstances.Add(Thread.CurrentThread.ManagedThreadId, _getService(parameters));
                     }
 
-                    return (TObject)_theadInstances[Thread.CurrentThread.ManagedThreadId];
+                    return (TObject)_threadInstances[Thread.CurrentThread.ManagedThreadId];
                 }
                 else
                 {

@@ -6,7 +6,7 @@ namespace EZServiceLocation
     public abstract class GenericLink<TInterface> : BaseLink
     {
         protected TInterface _serviceInstance;
-        protected Dictionary<int, TInterface> _theadInstances;
+        protected Dictionary<int, TInterface> _threadInstances;
 
         internal abstract TInterface Invoke(object[] parameters = null);
 

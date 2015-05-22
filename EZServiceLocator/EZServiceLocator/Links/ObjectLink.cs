@@ -14,7 +14,7 @@ namespace EZServiceLocation
 
         public ObjectLink() 
         {
-            _theadInstances = new Dictionary<int, TObject>();
+            _threadInstances = new Dictionary<int, TObject>();
         }
 
         public void Use(bool lazyTnstance = true, bool threadScope = true)
@@ -24,7 +24,7 @@ namespace EZServiceLocation
             if (!lazyTnstance)
             {
                 if (_isThreadScope)
-                    _theadInstances.Add(Thread.CurrentThread.ManagedThreadId, new TObject());
+                    _threadInstances.Add(Thread.CurrentThread.ManagedThreadId, new TObject());
                 else
                     _serviceInstance = new TObject();
             }
@@ -36,11 +36,11 @@ namespace EZServiceLocation
             {
                 lock (_lock)
                 {
-                    if (!_theadInstances.ContainsKey(Thread.CurrentThread.ManagedThreadId))
-                        _theadInstances.Add(Thread.CurrentThread.ManagedThreadId, new TObject());
+                    if (!_threadInstances.ContainsKey(Thread.CurrentThread.ManagedThreadId))
+                        _threadInstances.Add(Thread.CurrentThread.ManagedThreadId, new TObject());
                 }
 
-                return (TObject)_theadInstances[Thread.CurrentThread.ManagedThreadId];
+                return (TObject)_threadInstances[Thread.CurrentThread.ManagedThreadId];
             }
             else
             {

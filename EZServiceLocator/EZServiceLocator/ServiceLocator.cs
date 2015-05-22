@@ -57,8 +57,19 @@ namespace EZServiceLocation
 
             foreach (Type interfaceKey in mapper.NamedLinks.Keys)
             {
-                if (!_namedLinks.ContainsKey(interfaceKey))
-                    _namedLinks.Add(interfaceKey, mapper.NamedLinks[interfaceKey]);
+                foreach (string instanceName in mapper.NamedLinks[interfaceKey].Keys)
+                {
+                    if (_namedLinks.ContainsKey(interfaceKey))
+                    {
+                        if (!_namedLinks[interfaceKey].ContainsKey(instanceName))
+                            _namedLinks[interfaceKey].Add(instanceName, mapper.NamedLinks[interfaceKey][instanceName]);
+                    }
+                    else
+                    {
+                        _namedLinks.Add(interfaceKey, mapper.NamedLinks[interfaceKey]);
+                        break;
+                    }
+                }
             }
         }
 
