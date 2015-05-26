@@ -39,3 +39,8 @@ ServiceLocator.Current.LoadServiceMap<TestAppMap>();
 ```
 ServiceLocator.Current.GetService<INavigationRepository>("sql");
 ```
+
+##Upcoming updates
+* Support to named instance injection
+* Support to property injection
+* JSON mapping
