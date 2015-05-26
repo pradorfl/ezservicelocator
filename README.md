@@ -17,3 +17,23 @@ public class TestAppMap : ServiceMap
     }
 }
 ```
+
+##Specific mapping
+```
+ServiceLocator.Current.For<INavigationRepository>().Use<NavigationMsSqlRepository>();
+```
+
+##Named instance mapping
+```
+ServiceLocator.Current.For<INavigationRepository>("sql").Use<NavigationMsSqlRepository>();
+```
+
+##Service get
+```
+ServiceLocator.Current.LoadServiceMap<TestAppMap>();
+```
+
+##Named instance get
+```
+ServiceLocator.Current.GetService<INavigationRepository>("sql");
+```
