@@ -1,6 +1,3 @@
-#ezservicelocator
-A lightweight and very simple service locator with dependency injection libary for C#.
-
 ##Introduction
 You need a service locator with automated dependency injection support? 
 No need for heavyweight IoC Containers with so many options and functionalities?
@@ -26,6 +23,11 @@ ServiceLocator.Current.For<INavigationRepository>().Use<NavigationMsSqlRepositor
 ##Named instance mapping
 ```
 ServiceLocator.Current.For<INavigationRepository>("sql").Use<NavigationMsSqlRepository>();
+```
+
+##Self mapping
+```
+ServiceLocator.Current.Use<TestAppMap>();
 ```
 
 ##Service get
