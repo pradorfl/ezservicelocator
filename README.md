@@ -3,6 +3,11 @@ You need a service locator with automated dependency injection support?
 No need for heavyweight IoC Containers with so many options and functionalities?
 This libary provides exactly this!!!
 
+##Nuget package
+```
+PM> Install-Package EZServiceLocator
+```
+
 ##Sample mapping class
 ```
 public class TestAppMap : ServiceMap
