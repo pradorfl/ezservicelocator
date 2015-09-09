@@ -8,7 +8,7 @@ namespace EZServiceLocation
         protected TInterface _serviceInstance;
         protected Dictionary<int, TInterface> _threadInstances;
 
-        internal abstract TInterface Invoke(object[] parameters = null);
+        internal abstract TInterface Invoke(bool requiresNew = false, object[] parameters = null);
 
         public bool HasInstance { get { return _serviceInstance != null; } }
     }

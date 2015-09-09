@@ -30,14 +30,14 @@ namespace EZServiceLocation
             }
         }
 
-        internal override TObject Invoke(object[] parameters = null)
+        internal override TObject Invoke(bool requiresNew = false, object[] parameters = null)
         {
             if (_isThreadScope)
             {
                 lock (_lock)
                 {
-                    if (!_threadInstances.ContainsKey(Thread.CurrentThread.ManagedThreadId))
-                        _threadInstances.Add(Thread.CurrentThread.ManagedThreadId, new TObject());
+                    if (requiresNew || !_threadInstances.ContainsKey(Thread.CurrentThread.ManagedThreadId))
+                        _threadInstances[Thread.CurrentThread.ManagedThreadId] = new TObject();
                 }
 
                 return (TObject)_threadInstances[Thread.CurrentThread.ManagedThreadId];
@@ -46,7 +46,7 @@ namespace EZServiceLocation
             {
                 lock (_lock)
                 {
-                    if (_serviceInstance == null)
+                    if (requiresNew || _serviceInstance == null)
                         _serviceInstance = new TObject();
                 }
 
@@ -54,9 +54,9 @@ namespace EZServiceLocation
             }
         }
 
-        internal override object InvokeObject(object[] parameters = null)
+        internal override object InvokeObject(bool requiresNew = false, object[] parameters = null)
         {
-            return Invoke(parameters);
+            return Invoke(requiresNew, parameters);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace EZServiceLocation
             }
         }
 
-        private object ResolveDepedencies(BaseLink link)
+        private object ResolveDepedencies(BaseLink link, bool requiresNew)
         {
             object[] parameters = new object[link.Dependencies.Length];
 
@@ -33,7 +33,7 @@ namespace EZServiceLocation
                 {
                     var dependency = _links[link.Dependencies[i]] as BaseLink;
 
-                    parameters[i] = dependency.HasDependencies ? ResolveDepedencies(dependency) : dependency.InvokeObject();
+                    parameters[i] = dependency.HasDependencies ? ResolveDepedencies(dependency, requiresNew) : dependency.InvokeObject(requiresNew);
                 }
                 else
                 {
@@ -41,7 +41,7 @@ namespace EZServiceLocation
                 }
             }
 
-            return link.InvokeObject(parameters);
+            return link.InvokeObject(requiresNew, parameters);
         }
 
         public void LoadServiceMap<TServiceMap>() where TServiceMap : ServiceMap, new()
@@ -73,16 +73,16 @@ namespace EZServiceLocation
             }
         }
 
-        public TInterface GetService<TInterface>(bool throwError = true) where TInterface : class
+        public TInterface GetService<TInterface>(bool throwError = true, bool requiresNew = false) where TInterface : class
         {
             try
             {
                 var link = _links[typeof(TInterface)] as GenericLink<TInterface>;
 
                 if (!link.HasInstance && link.HasDependencies)
-                    return ResolveDepedencies(link) as TInterface;
+                    return ResolveDepedencies(link, requiresNew) as TInterface;
 
-                return link.Invoke();
+                return link.Invoke(requiresNew);
             }
             catch (KeyNotFoundException)
             {
@@ -93,16 +93,16 @@ namespace EZServiceLocation
             }
         }
 
-        public TInterface GetService<TInterface>(string instanceName, bool throwError = true) where TInterface : class
+        public TInterface GetService<TInterface>(string instanceName, bool throwError = true, bool requiresNew = false) where TInterface : class
         {
             try
             {
                 var link = _namedLinks[typeof(TInterface)][instanceName] as GenericLink<TInterface>;
 
                 if (!link.HasInstance && link.HasDependencies)
-                    return ResolveDepedencies(link) as TInterface;
+                    return ResolveDepedencies(link, requiresNew) as TInterface;
 
-                return link.Invoke();
+                return link.Invoke(requiresNew);
             }
             catch (KeyNotFoundException)
             {
