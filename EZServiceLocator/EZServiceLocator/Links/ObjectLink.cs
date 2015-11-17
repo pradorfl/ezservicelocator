@@ -46,12 +46,18 @@ namespace EZServiceLocation
             {
                 lock (_lock)
                 {
-                    if (requiresNew || _serviceInstance == null)
-                        _serviceInstance = new TObject();
-                }
+                    if (requiresNew)
+                        return new TObject();
 
-                return (TObject)_serviceInstance;
+                    if (_serviceInstance == null)
+                    {
+                        _serviceInstance = new TObject();
+                        return _serviceInstance;
+                    }
+                }
             }
+
+            return default(TObject);
         }
 
         internal override object InvokeObject(bool requiresNew = false, object[] parameters = null)

@@ -44,11 +44,15 @@ namespace EZServiceLocation
                 {
                     lock (_lock)
                     {
-                        if (requiresNew || _serviceInstance == null)
-                            _serviceInstance = _getService(parameters);
-                    }
+                        if (requiresNew)
+                            return _getService(parameters);
 
-                    return (TObject)_serviceInstance;
+                        if (_serviceInstance == null)
+                        {
+                            _serviceInstance = _getService(parameters);
+                            return _serviceInstance;
+                        }
+                    }
                 }
             }
 
