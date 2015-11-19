@@ -23,17 +23,33 @@ namespace EZServiceLocation
             }
         }
 
-        private object ResolveDepedencies(BaseLink link, bool requiresNew)
+        private bool HasNamedInstance(Type type, string instanceName)
+        {
+            return !string.IsNullOrWhiteSpace(instanceName)
+                && _namedLinks.ContainsKey(type)
+                && _namedLinks[type].ContainsKey(instanceName);
+        }
+
+        private object ResolveDepedencies(BaseLink link, bool requiresNew, string instanceName = null)
         {
             object[] parameters = new object[link.Dependencies.Length];
 
             for (int i = 0; i < link.Dependencies.Length; i++)
             {
-                if (_links.ContainsKey(link.Dependencies[i]))
+                if (HasNamedInstance(link.Dependencies[i], instanceName))
                 {
-                    var dependency = _links[link.Dependencies[i]] as BaseLink;
+                    var dependency = _namedLinks[link.Dependencies[i]][instanceName] as BaseLink;
 
-                    parameters[i] = dependency.HasDependencies ? ResolveDepedencies(dependency, requiresNew) : dependency.InvokeObject(requiresNew);
+                    parameters[i] = dependency.HasDependencies ? ResolveDepedencies(dependency, requiresNew, instanceName) : dependency.InvokeObject(requiresNew);
+                }
+                else if (_links.ContainsKey(link.Dependencies[i]))
+                {
+                    if (_links.ContainsKey(link.Dependencies[i]))
+                    {
+                        var dependency = _links[link.Dependencies[i]] as BaseLink;
+
+                        parameters[i] = dependency.HasDependencies ? ResolveDepedencies(dependency, requiresNew, instanceName) : dependency.InvokeObject(requiresNew);
+                    }
                 }
                 else
                 {
@@ -100,7 +116,7 @@ namespace EZServiceLocation
                 var link = _namedLinks[typeof(TInterface)][instanceName] as GenericLink<TInterface>;
 
                 if (!link.HasInstance && link.HasDependencies)
-                    return ResolveDepedencies(link, requiresNew) as TInterface;
+                    return ResolveDepedencies(link, requiresNew, instanceName) as TInterface;
 
                 return link.Invoke(requiresNew);
             }
