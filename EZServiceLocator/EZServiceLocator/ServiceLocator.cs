@@ -128,5 +128,45 @@ namespace EZServiceLocation
                 throw new ApplicationException("The requested service is not registered");
             }
         }
+
+        public object GetService(Type instance, bool throwError = true, bool requiresNew = false)
+        {
+            try
+            {
+                var link = _links[instance] as BaseLink;
+
+                if (link.HasDependencies)
+                    return ResolveDepedencies(link, requiresNew);
+
+                return link.InvokeObject(requiresNew);
+            }
+            catch (KeyNotFoundException)
+            {
+                if (!throwError)
+                    return default(object);
+
+                throw new ApplicationException("The requested service is not registered");
+            }
+        }
+
+        public object GetService(Type instance, string instanceName, bool throwError = true, bool requiresNew = false)
+        {
+            try
+            {
+                var link = _namedLinks[instance][instanceName] as BaseLink;
+
+                if (link.HasDependencies)
+                    return ResolveDepedencies(link, requiresNew, instanceName);
+
+                return link.InvokeObject(requiresNew);
+            }
+            catch (KeyNotFoundException)
+            {
+                if (!throwError)
+                    return default(object);
+
+                throw new ApplicationException("The requested service is not registered");
+            }
+        }
     }
 }
