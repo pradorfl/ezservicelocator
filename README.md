@@ -1,12 +1,12 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/8ax5teh2x2xwhjof?svg=true)](https://ci.appveyor.com/project/AdGalesso/ezservicelocator)
 [![Nuget count](https://img.shields.io/badge/nuget-v1.0.2-green.svg)](https://www.nuget.org/packages/EZServiceLocator/)
 
-##Introduction
+## Introduction
 You need a service locator with automated dependency injection support? 
 No need for heavyweight IoC Containers with so many options and functionalities?
 This library provides exactly this!!!
 
-##Sample mapping class
+## Sample mapping class
 ```
 public class TestAppMap : ServiceMap
 {
@@ -18,32 +18,32 @@ public class TestAppMap : ServiceMap
 }
 ```
 
-##Specific mapping
+## Specific mapping
 ```
 ServiceLocator.Current.For<INavigationRepository>().Use<NavigationMsSqlRepository>();
 ```
 
-##Named instance mapping
+## Named instance mapping
 ```
 ServiceLocator.Current.For<INavigationRepository>("sql").Use<NavigationMsSqlRepository>();
 ```
 
-##Self mapping
+## Self mapping
 ```
 ServiceLocator.Current.Use<TestAppMap>();
 ```
 
-##Service get
+## Service get
 ```
 ServiceLocator.Current.LoadServiceMap<TestAppMap>();
 ```
 
-##Named instance get
+## Named instance get
 ```
 ServiceLocator.Current.GetService<INavigationRepository>("sql");
 ```
 
-##Upcoming updates
+## Upcoming updates
 * Support to named instance injection
 * Support to property injection
 * JSON mapping
